@@ -36,7 +36,8 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             color: #0056b3;
         }
 
@@ -66,8 +67,9 @@
     </header>
     <main>
         <section>
-            <h2>What is SQL Server?</h2>
-            <p>SQL Server is a relational database management system (RDBMS) developed by Microsoft. It is used to store and retrieve data as requested by other software applications.</p>
+            <h2>1. is SQL Server?</h2>
+            <p>SQL Server is a relational database management system (RDBMS) developed by Microsoft. It is used to store
+                and retrieve data as requested by other software applications.</p>
             <p><strong>Example:</strong></p>
             <pre>-- Creating a simple table
 CREATE TABLE Employees (
@@ -79,7 +81,7 @@ CREATE TABLE Employees (
         </section>
 
         <section>
-            <h2>DDL, DML, DCL, TCL</h2>
+            <h2>2. DDL, DML, DCL, TCL</h2>
             <ul>
                 <li><strong>DDL (Data Definition Language):</strong> CREATE, ALTER, DROP</li>
                 <li><strong>DML (Data Manipulation Language):</strong> SELECT, INSERT, UPDATE, DELETE</li>
@@ -100,7 +102,7 @@ COMMIT;</pre>
         </section>
 
         <section>
-            <h2>Keys in SQL</h2>
+            <h2>3. Keys in SQL</h2>
             <ul>
                 <li><strong>Primary Key:</strong> Uniquely identifies each record.</li>
                 <li><strong>Foreign Key:</strong> References a primary key in another table.</li>
@@ -120,7 +122,7 @@ CREATE TABLE Employees (
         </section>
 
         <section>
-            <h2>Delete vs Truncate vs Drop</h2>
+            <h2>4.Delete vs Truncate vs Drop</h2>
             <ul>
                 <li><strong>DELETE:</strong> Deletes rows with WHERE condition, can rollback.</li>
                 <li><strong>TRUNCATE:</strong> Removes all rows, cannot use WHERE, faster.</li>
@@ -132,7 +134,8 @@ DROP TABLE Employees;</pre>
         </section>
 
         <section>
-            <h2>Constraints</h2>
+            <h2>5. Constraints</h2>
+            <p>IS a Set of rule that apply to a table</p>
             <p>NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK, DEFAULT</p>
             <pre>CREATE TABLE Products (
     ProductId INT PRIMARY KEY,
@@ -142,14 +145,16 @@ DROP TABLE Employees;</pre>
         </section>
 
         <section>
-            <h2>Aggregate Functions</h2>
+            <h2>6.Aggregate Functions</h2>
             <p>Functions like COUNT, SUM, AVG, MIN, MAX used to perform calculations on data.</p>
             <pre>SELECT COUNT(*) AS TotalEmployees, AVG(Salary) AS AverageSalary
 FROM Employees;</pre>
         </section>
 
         <section>
-            <h2>Group By & Having</h2>
+            <h2>7.Group By & Having</h2>
+            <p>To Group a recored by one or more Column</p>
+            <p>Having is like a where for Group by </p>
             <pre>SELECT Department, COUNT(*) AS Total
 FROM Employees
 GROUP BY Department
@@ -157,15 +162,65 @@ HAVING COUNT(*) > 1;</pre>
         </section>
 
         <section>
-            <h2>Joins</h2>
-            <p>Combine rows from two or more tables based on related columns.</p>
-            <pre>SELECT e.Name, d.DeptName
+            <h2>8.Joins</h2>
+            <p>Joins are used to retrieve data from two or more tables based on a related column between them. Below are
+                the types of joins available in SQL Server:</p>
+
+            <h3>1. INNER JOIN</h3>
+            <p>Returns only the matching rows from both tables.</p>
+            <pre>
+SELECT e.Name, d.DeptName
 FROM Employees e
-INNER JOIN Departments d ON e.DeptId = d.DeptId;</pre>
+INNER JOIN Departments d ON e.DeptId = d.DeptId;
+    </pre>
+
+            <h3>2. LEFT JOIN (LEFT OUTER JOIN)</h3>
+            <p>Returns all rows from the left table and the matched rows from the right table. If no match, NULLs are
+                returned from the right side.</p>
+            <pre>
+SELECT e.Name, d.DeptName
+FROM Employees e
+LEFT JOIN Departments d ON e.DeptId = d.DeptId;
+    </pre>
+
+            <h3>3. RIGHT JOIN (RIGHT OUTER JOIN)</h3>
+            <p>Returns all rows from the right table and the matched rows from the left table. If no match, NULLs are
+                returned from the left side.</p>
+            <pre>
+SELECT e.Name, d.DeptName
+FROM Employees e
+RIGHT JOIN Departments d ON e.DeptId = d.DeptId;
+    </pre>
+
+            <h3>4. FULL JOIN (FULL OUTER JOIN)</h3>
+            <p>Returns all rows from both tables. Non-matching rows will have NULLs for the side that doesn't have a
+                match.</p>
+            <pre>
+SELECT e.Name, d.DeptName
+FROM Employees e
+FULL OUTER JOIN Departments d ON e.DeptId = d.DeptId;
+    </pre>
+
+            <h3>5. CROSS JOIN</h3>
+            <p>Returns the Cartesian product of the two tables. Each row in the first table is combined with all rows in
+                the second table.</p>
+            <pre>
+SELECT e.Name, d.DeptName
+FROM Employees e
+CROSS JOIN Departments d;
+    </pre>
+
+            <h3>6. SELF JOIN</h3>
+            <p>A table is joined with itself.</p>
+            <pre>
+SELECT e1.Name AS EmployeeName, e2.Name AS ManagerName
+FROM Employees e1
+INNER JOIN Employees e2 ON e1.ManagerId = e2.Id;
+    </pre>
         </section>
 
         <section>
-            <h2>Stored Procedure vs Function</h2>
+            <h2>9.Stored Procedure vs Function</h2>
             <ul>
                 <li><strong>Stored Procedure:</strong> Can return multiple values and modify data.</li>
                 <li><strong>Function:</strong> Returns a single value or table, can't modify data.</li>
@@ -177,17 +232,45 @@ AS
 BEGIN
     RETURN (SELECT SUM(Salary) FROM Employees);
 END;</pre>
+            
+                <h2>Can We Write UPDATE or DELETE in a Function?</h2>
+                <p><strong>In SQL Server, you cannot write an <code>UPDATE</code> query or any data modification
+                        statement
+                        inside a user-defined function (UDF).</strong></p>
+
+                <h3>❌ Not Allowed Inside Functions:</h3>
+                <p>The following statements are not permitted in scalar or table-valued functions:</p>
+                <ul>
+                    <li>INSERT</li>
+                    <li>UPDATE</li>
+                    <li>DELETE</li>
+                    <li>MERGE</li>
+                    <li>TRUNCATE</li>
+                </ul>
+
+                <h3>✅ What You Can Do Inside a Function:</h3>
+                <ul>
+                    <li>Only read data using <code>SELECT</code></li>
+                    <li>Perform calculations</li>
+                    <li>Use control-of-flow logic like <code>IF</code>, <code>CASE</code></li>
+                    <li>Return scalar values or table results</li>
+                </ul>
+
+                <p>Functions in SQL Server are meant for computation and data retrieval, not data manipulation.</p>
+            
         </section>
 
+
+
         <section>
-            <h2>Views</h2>
+            <h2>10. Views</h2>
             <p>Virtual table created using a SELECT query.</p>
             <pre>CREATE VIEW IT_Employees AS
 SELECT * FROM Employees WHERE Department = 'IT';</pre>
         </section>
 
         <section>
-            <h2>Triggers</h2>
+            <h2>11. Triggers</h2>
             <p>Execute automatically when an event like INSERT, UPDATE, DELETE occurs.</p>
             <pre>CREATE TRIGGER trgAfterInsert
 ON Employees
@@ -199,7 +282,7 @@ END;</pre>
         </section>
 
         <section>
-            <h2>Cursors</h2>
+            <h2>12.Cursors</h2>
             <p>Used to process each row individually.</p>
             <pre>DECLARE emp_cursor CURSOR FOR
 SELECT Name FROM Employees;
@@ -212,17 +295,30 @@ DEALLOCATE emp_cursor;</pre>
         </section>
 
         <section>
-            <h2>CTE (Common Table Expression)</h2>
-            <pre>WITH DeptCTE AS (
+    <h2>13.CTE (Common Table Expression)</h2>
+    <p>A Common Table Expression (CTE) is a temporary result set that can be referenced within a <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code> statement. It improves readability and makes complex queries easier to manage.</p>
+
+    <h3>Example:</h3>
+    <pre>
+WITH DeptCTE AS (
     SELECT DeptId, COUNT(*) AS Total
     FROM Employees
     GROUP BY DeptId
 )
-SELECT * FROM DeptCTE;</pre>
-        </section>
+SELECT * FROM DeptCTE;
+-- Returns department-wise employee count
+    </pre>
+
+    <h3>Benefits of CTE:</h3>
+    <ul>
+        <li>Improves query readability</li>
+        <li>Can be recursive (used for hierarchical queries)</li>
+        <li>Helps avoid complex subqueries</li>
+    </ul>
+</section>
 
         <section>
-            <h2>Normalization</h2>
+            <h2>14.Normalization</h2>
             <p>Organizing data to reduce redundancy.</p>
             <ul>
                 <li>1NF: Atomic values</li>
@@ -232,7 +328,7 @@ SELECT * FROM DeptCTE;</pre>
         </section>
 
         <section>
-            <h2>Subquery vs Join</h2>
+            <h2>15.Subquery vs Join</h2>
             <pre>-- Subquery
 SELECT Name FROM Employees
 WHERE DeptId IN (SELECT DeptId FROM Departments WHERE DeptName = 'IT');
@@ -243,7 +339,7 @@ JOIN Departments d ON e.DeptId = d.DeptId;</pre>
         </section>
 
         <section>
-            <h2>Transactions and Rollback</h2>
+            <h2>16.Transactions and Rollback</h2>
             <pre>BEGIN TRANSACTION;
 UPDATE Employees SET Salary = Salary + 500 WHERE Id = 1;
 ROLLBACK; -- or COMMIT</pre>
