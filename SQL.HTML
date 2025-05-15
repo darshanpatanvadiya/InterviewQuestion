@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Server Interview Preparation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 1rem;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        section {
+            background-color: #fff;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            color: #007bff;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>SQL Server Interview Preparation</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Basic SQL Server Concepts</h2>
+            <ul>
+                <li><strong>DDL:</strong> Data Definition Language (CREATE, ALTER, DROP)</li>
+                <li><strong>DML:</strong> Data Manipulation Language (SELECT, INSERT, UPDATE, DELETE)</li>
+                <li><strong>DCL:</strong> Data Control Language (GRANT, REVOKE)</li>
+                <li><strong>TCL:</strong> Transaction Control Language (COMMIT, ROLLBACK, SAVEPOINT)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Keys in SQL</h2>
+            <ul>
+                <li><strong>Primary Key:</strong> Uniquely identifies each record, not null + unique</li>
+                <li><strong>Foreign Key:</strong> References primary key in another table</li>
+                <li><strong>Unique Key:</strong> Ensures all values are unique but allows one null</li>
+                <li><strong>Difference:</strong> Primary = Not Null + Unique; Unique = Unique only; Foreign = Reference</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Delete vs Truncate vs Drop</h2>
+            <ul>
+                <li><strong>DELETE:</strong> DML, can use WHERE, can rollback</li>
+                <li><strong>TRUNCATE:</strong> DDL, removes all rows, can't use WHERE</li>
+                <li><strong>DROP:</strong> DDL, removes table/schema entirely</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Constraints</h2>
+            <p>NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK, DEFAULT</p>
+        </section>
+
+        <section>
+            <h2>Aggregate Functions</h2>
+            <p>SUM, COUNT, AVG, MAX, MIN</p>
+        </section>
+
+        <section>
+            <h2>Group By & Having</h2>
+            <p><strong>GROUP BY:</strong> Used with aggregate functions to group result-set</p>
+            <p><strong>HAVING:</strong> Filters records after grouping (like WHERE but for groups)</p>
+        </section>
+
+        <section>
+            <h2>Joins</h2>
+            <p>INNER, LEFT, RIGHT, FULL OUTER, CROSS JOIN</p>
+        </section>
+
+        <section>
+            <h2>Stored Procedure vs Function</h2>
+            <ul>
+                <li>SP: Can perform operations, return multiple values, support transactions</li>
+                <li>Function: Must return a value, cannot modify data (except inline TVFs)</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Types of Functions</h2>
+            <ul>
+                <li>Scalar Function</li>
+                <li>Inline Table-valued Function</li>
+                <li>Multi-Statement Table-valued Function</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Views</h2>
+            <p>Virtual table created using SELECT queries. Used for abstraction and simplification.</p>
+        </section>
+
+        <section>
+            <h2>Triggers</h2>
+            <p>Automatic execution of actions on INSERT, UPDATE, DELETE events</p>
+        </section>
+
+        <section>
+            <h2>Cursors</h2>
+            <p>Row-by-row processing of query results (avoid if possible due to performance)</p>
+        </section>
+
+        <section>
+            <h2>CTE (Common Table Expression)</h2>
+            <p>Temporary result set used within SELECT, INSERT, UPDATE, DELETE</p>
+        </section>
+
+        <section>
+            <h2>Normalization</h2>
+            <p>Process of organizing data to reduce redundancy. Normal forms: 1NF, 2NF, 3NF, BCNF</p>
+        </section>
+
+        <section>
+            <h2>Subquery vs Join</h2>
+            <ul>
+                <li><strong>Subquery:</strong> Query within another query (inner query runs first)</li>
+                <li><strong>Join:</strong> Combines data from multiple tables based on condition</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Transactions and Rollback</h2>
+            <p>Used to group SQL operations into a single unit. Can COMMIT or ROLLBACK</p>
+        </section>
+
+        <section>
+            <h2>Extra Topics</h2>
+            <ul>
+                <li>Indexing (Clustered vs Non-Clustered)</li>
+                <li>Execution Plan</li>
+                <li>Temp Tables vs Table Variables</li>
+                <li>Isolation Levels</li>
+                <li>NOLOCK and Deadlocks</li>
+            </ul>
+        </section>
+    </main>
+</body>
+
+</html>
