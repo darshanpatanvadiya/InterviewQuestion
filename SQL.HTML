@@ -7,41 +7,53 @@
     <title>SQL Server Interview Preparation</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f4;
+            background-color: #eef2f7;
             color: #333;
         }
 
         header {
-            background-color: #007bff;
+            background-color: #0056b3;
             color: #fff;
-            padding: 1rem;
+            padding: 1.5rem 1rem;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         main {
-            padding: 1rem;
-            max-width: 800px;
+            padding: 2rem 1rem;
+            max-width: 900px;
             margin: auto;
         }
 
         section {
             background-color: #fff;
-            margin-bottom: 1rem;
-            padding: 1rem;
-            border-radius: 5px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
         }
 
-        h2 {
-            color: #007bff;
+        h1, h2 {
+            color: #0056b3;
+        }
+
+        pre {
+            background-color: #f1f1f1;
+            padding: 1rem;
+            border-left: 4px solid #007bff;
+            overflow-x: auto;
+        }
+
+        ul {
+            padding-left: 1.5rem;
         }
 
         @media (max-width: 600px) {
-            body {
-                padding: 0 1rem;
+            main {
+                padding: 1rem;
             }
         }
     </style>
@@ -50,121 +62,202 @@
 <body>
     <header>
         <h1>SQL Server Interview Preparation</h1>
+        <p>Your quick reference for SQL Server concepts and examples</p>
     </header>
     <main>
         <section>
-            <h2>Basic SQL Server Concepts</h2>
+            <h2>What is SQL Server?</h2>
+            <p>SQL Server is a relational database management system (RDBMS) developed by Microsoft. It is used to store and retrieve data as requested by other software applications.</p>
+            <p><strong>Example:</strong></p>
+            <pre>-- Creating a simple table
+CREATE TABLE Employees (
+    Id INT PRIMARY KEY,
+    Name VARCHAR(100),
+    Department VARCHAR(50),
+    Salary DECIMAL(10,2)
+);</pre>
+        </section>
+
+        <section>
+            <h2>DDL, DML, DCL, TCL</h2>
             <ul>
-                <li><strong>DDL:</strong> Data Definition Language (CREATE, ALTER, DROP)</li>
-                <li><strong>DML:</strong> Data Manipulation Language (SELECT, INSERT, UPDATE, DELETE)</li>
-                <li><strong>DCL:</strong> Data Control Language (GRANT, REVOKE)</li>
-                <li><strong>TCL:</strong> Transaction Control Language (COMMIT, ROLLBACK, SAVEPOINT)</li>
+                <li><strong>DDL (Data Definition Language):</strong> CREATE, ALTER, DROP</li>
+                <li><strong>DML (Data Manipulation Language):</strong> SELECT, INSERT, UPDATE, DELETE</li>
+                <li><strong>DCL (Data Control Language):</strong> GRANT, REVOKE</li>
+                <li><strong>TCL (Transaction Control Language):</strong> COMMIT, ROLLBACK, SAVEPOINT</li>
             </ul>
+            <pre>-- DML Example
+INSERT INTO Employees (Id, Name, Department, Salary)
+VALUES (1, 'John Doe', 'IT', 60000.00);
+
+-- DDL Example
+ALTER TABLE Employees ADD Email VARCHAR(100);
+
+-- TCL Example
+BEGIN TRANSACTION
+UPDATE Employees SET Salary = Salary + 1000 WHERE Department = 'IT';
+COMMIT;</pre>
         </section>
 
         <section>
             <h2>Keys in SQL</h2>
             <ul>
-                <li><strong>Primary Key:</strong> Uniquely identifies each record, not null + unique</li>
-                <li><strong>Foreign Key:</strong> References primary key in another table</li>
-                <li><strong>Unique Key:</strong> Ensures all values are unique but allows one null</li>
-                <li><strong>Difference:</strong> Primary = Not Null + Unique; Unique = Unique only; Foreign = Reference</li>
+                <li><strong>Primary Key:</strong> Uniquely identifies each record.</li>
+                <li><strong>Foreign Key:</strong> References a primary key in another table.</li>
+                <li><strong>Unique Key:</strong> Ensures all values in a column are unique.</li>
             </ul>
+            <pre>-- Primary and Foreign Key Example
+CREATE TABLE Departments (
+    DeptId INT PRIMARY KEY,
+    DeptName VARCHAR(100)
+);
+
+CREATE TABLE Employees (
+    Id INT PRIMARY KEY,
+    Name VARCHAR(100),
+    DeptId INT FOREIGN KEY REFERENCES Departments(DeptId)
+);</pre>
         </section>
 
         <section>
             <h2>Delete vs Truncate vs Drop</h2>
             <ul>
-                <li><strong>DELETE:</strong> DML, can use WHERE, can rollback</li>
-                <li><strong>TRUNCATE:</strong> DDL, removes all rows, can't use WHERE</li>
-                <li><strong>DROP:</strong> DDL, removes table/schema entirely</li>
+                <li><strong>DELETE:</strong> Deletes rows with WHERE condition, can rollback.</li>
+                <li><strong>TRUNCATE:</strong> Removes all rows, cannot use WHERE, faster.</li>
+                <li><strong>DROP:</strong> Deletes entire table or database structure.</li>
             </ul>
+            <pre>DELETE FROM Employees WHERE Id = 1;
+TRUNCATE TABLE Employees;
+DROP TABLE Employees;</pre>
         </section>
 
         <section>
             <h2>Constraints</h2>
             <p>NOT NULL, UNIQUE, PRIMARY KEY, FOREIGN KEY, CHECK, DEFAULT</p>
+            <pre>CREATE TABLE Products (
+    ProductId INT PRIMARY KEY,
+    ProductName VARCHAR(100) NOT NULL,
+    Price DECIMAL(10,2) CHECK (Price > 0)
+);</pre>
         </section>
 
         <section>
             <h2>Aggregate Functions</h2>
-            <p>SUM, COUNT, AVG, MAX, MIN</p>
+            <p>Functions like COUNT, SUM, AVG, MIN, MAX used to perform calculations on data.</p>
+            <pre>SELECT COUNT(*) AS TotalEmployees, AVG(Salary) AS AverageSalary
+FROM Employees;</pre>
         </section>
 
         <section>
             <h2>Group By & Having</h2>
-            <p><strong>GROUP BY:</strong> Used with aggregate functions to group result-set</p>
-            <p><strong>HAVING:</strong> Filters records after grouping (like WHERE but for groups)</p>
+            <pre>SELECT Department, COUNT(*) AS Total
+FROM Employees
+GROUP BY Department
+HAVING COUNT(*) > 1;</pre>
         </section>
 
         <section>
             <h2>Joins</h2>
-            <p>INNER, LEFT, RIGHT, FULL OUTER, CROSS JOIN</p>
+            <p>Combine rows from two or more tables based on related columns.</p>
+            <pre>SELECT e.Name, d.DeptName
+FROM Employees e
+INNER JOIN Departments d ON e.DeptId = d.DeptId;</pre>
         </section>
 
         <section>
             <h2>Stored Procedure vs Function</h2>
             <ul>
-                <li>SP: Can perform operations, return multiple values, support transactions</li>
-                <li>Function: Must return a value, cannot modify data (except inline TVFs)</li>
+                <li><strong>Stored Procedure:</strong> Can return multiple values and modify data.</li>
+                <li><strong>Function:</strong> Returns a single value or table, can't modify data.</li>
             </ul>
-        </section>
-
-        <section>
-            <h2>Types of Functions</h2>
-            <ul>
-                <li>Scalar Function</li>
-                <li>Inline Table-valued Function</li>
-                <li>Multi-Statement Table-valued Function</li>
-            </ul>
+            <pre>-- Function Example
+CREATE FUNCTION GetTotalSalary()
+RETURNS DECIMAL(10,2)
+AS
+BEGIN
+    RETURN (SELECT SUM(Salary) FROM Employees);
+END;</pre>
         </section>
 
         <section>
             <h2>Views</h2>
-            <p>Virtual table created using SELECT queries. Used for abstraction and simplification.</p>
+            <p>Virtual table created using a SELECT query.</p>
+            <pre>CREATE VIEW IT_Employees AS
+SELECT * FROM Employees WHERE Department = 'IT';</pre>
         </section>
 
         <section>
             <h2>Triggers</h2>
-            <p>Automatic execution of actions on INSERT, UPDATE, DELETE events</p>
+            <p>Execute automatically when an event like INSERT, UPDATE, DELETE occurs.</p>
+            <pre>CREATE TRIGGER trgAfterInsert
+ON Employees
+AFTER INSERT
+AS
+BEGIN
+    PRINT 'Record inserted into Employees';
+END;</pre>
         </section>
 
         <section>
             <h2>Cursors</h2>
-            <p>Row-by-row processing of query results (avoid if possible due to performance)</p>
+            <p>Used to process each row individually.</p>
+            <pre>DECLARE emp_cursor CURSOR FOR
+SELECT Name FROM Employees;
+
+OPEN emp_cursor;
+FETCH NEXT FROM emp_cursor;
+-- use loop here
+CLOSE emp_cursor;
+DEALLOCATE emp_cursor;</pre>
         </section>
 
         <section>
             <h2>CTE (Common Table Expression)</h2>
-            <p>Temporary result set used within SELECT, INSERT, UPDATE, DELETE</p>
+            <pre>WITH DeptCTE AS (
+    SELECT DeptId, COUNT(*) AS Total
+    FROM Employees
+    GROUP BY DeptId
+)
+SELECT * FROM DeptCTE;</pre>
         </section>
 
         <section>
             <h2>Normalization</h2>
-            <p>Process of organizing data to reduce redundancy. Normal forms: 1NF, 2NF, 3NF, BCNF</p>
-        </section>
-
-        <section>
-            <h2>Subquery vs Join</h2>
+            <p>Organizing data to reduce redundancy.</p>
             <ul>
-                <li><strong>Subquery:</strong> Query within another query (inner query runs first)</li>
-                <li><strong>Join:</strong> Combines data from multiple tables based on condition</li>
+                <li>1NF: Atomic values</li>
+                <li>2NF: Remove partial dependency</li>
+                <li>3NF: Remove transitive dependency</li>
             </ul>
         </section>
 
         <section>
+            <h2>Subquery vs Join</h2>
+            <pre>-- Subquery
+SELECT Name FROM Employees
+WHERE DeptId IN (SELECT DeptId FROM Departments WHERE DeptName = 'IT');
+
+-- Join
+SELECT e.Name, d.DeptName FROM Employees e
+JOIN Departments d ON e.DeptId = d.DeptId;</pre>
+        </section>
+
+        <section>
             <h2>Transactions and Rollback</h2>
-            <p>Used to group SQL operations into a single unit. Can COMMIT or ROLLBACK</p>
+            <pre>BEGIN TRANSACTION;
+UPDATE Employees SET Salary = Salary + 500 WHERE Id = 1;
+ROLLBACK; -- or COMMIT</pre>
         </section>
 
         <section>
             <h2>Extra Topics</h2>
             <ul>
-                <li>Indexing (Clustered vs Non-Clustered)</li>
-                <li>Execution Plan</li>
+                <li>Clustered vs Non-Clustered Index</li>
+                <li>Execution Plans</li>
                 <li>Temp Tables vs Table Variables</li>
                 <li>Isolation Levels</li>
-                <li>NOLOCK and Deadlocks</li>
+                <li>Deadlocks and Locking</li>
+                <li>NOLOCK keyword</li>
             </ul>
         </section>
     </main>
